@@ -1,3 +1,6 @@
+// entry point of the app, which is set in angular.json
+// the app will run index.html first and then main.ts
+
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
