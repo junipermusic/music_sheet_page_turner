@@ -1,3 +1,4 @@
+// The file for express backend server
 // To run the typescript file:
 // way 1: 
 // can be access by http://localhost:3000/ after running $ npx ts-node src/server.ts
@@ -16,16 +17,15 @@
 
 import express, { Request, Response } from "express";
 import { json } from "body-parser";
+import controllerFunction from "./controller";
 // const express = require('express')
-const app = express() // create an express server
-const port = 3000
+const app = express(); // create an express server
+const port = 3000;
 
-app.use(json()) // body parser middleware
+app.use(json()); // body parser middleware
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!')
-})
+app.get('/', controllerFunction);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Server listening on port ${port}`)
+});
