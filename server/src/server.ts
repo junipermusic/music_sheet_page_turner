@@ -16,15 +16,33 @@
 // and kill with $ kill -9 <pid>
 
 import express, { Request, Response } from "express";
-import { json } from "body-parser";
 import controllerFunction from "./controller";
+import { json } from "body-parser";
 // const express = require('express')
 const app = express(); // create an express server
 const port = 3000;
 
-app.use(json()); // body parser middleware
+// handling CORS
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", 
+             "http://localhost:4200");
+  res.setHeader("Access-Control-Allow-Methods", 
+             "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", 
+             "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
 
+app.use(json()); // middleware used in Express to parse incoming request bodies in JSON format
+
+// root
 app.get('/', controllerFunction);
+// route for handling requests from the Angular client
+app.get('/test', (req, res) => {
+  res.json({ content: 
+          'Test from the Express server!' });
+});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`)
