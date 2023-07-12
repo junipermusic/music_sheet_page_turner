@@ -18,6 +18,9 @@
 import express, { Request, Response } from "express";
 import controllerFunction from "./controller";
 import { json } from "body-parser";
+import { todoRouter  } from "./route/todo";
+import mongoose from 'mongoose';
+
 // const express = require('express')
 const app = express(); // create an express server
 const port = 3000;
@@ -36,6 +39,8 @@ app.use((req, res, next) => {
 
 app.use(json()); // middleware used in Express to parse incoming request bodies in JSON format
 
+app.use(todoRouter);
+
 // root
 app.get('/', controllerFunction);
 // route for handling requests from the Angular client
@@ -43,6 +48,12 @@ app.get('/test', (req, res) => {
   res.json({ content: 
           'Test from the Express server!' });
 });
+// connect to mongoDB
+const url = "mongodb+srv://JuniperDBUser:AwuPK0CA91SBGur7@cluster0.zzseszi.mongodb.net/?retryWrites=true&w=majority";
+mongoose.connect(url)
+  .then(() => console.log('Connected to database'))
+  .catch((err) => console.error(err));
+
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`)
